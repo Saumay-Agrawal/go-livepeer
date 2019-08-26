@@ -290,3 +290,23 @@ func ticketBrokerParamsHandler(client eth.LivepeerEthClient) http.Handler {
 		w.Write(data)
 	})
 }
+
+func signMessageHandler(client eth.LivepeerEthClient) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if client == nil {
+			respondWith500(w, "missing ETH client")
+			return
+		}
+
+		message := r.FormValue("message")
+		signed, err := client.Sign([]byte(message))
+		if err != nil {
+			glog.Errorf("error: %v", err)
+			respondWith500(w, fmt.Sprintf("could not sign message - err=%v", err))
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(signed))
+	})
+}

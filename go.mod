@@ -7,6 +7,7 @@ require (
 	github.com/allegro/bigcache v1.2.1 // indirect
 	github.com/apilayer/freegeoip v3.5.0+incompatible // indirect
 	github.com/aristanetworks/goarista v0.0.0-20190909155222-05df9ecbb0dc // indirect
+	github.com/atotto/clipboard v0.1.2
 	github.com/aws/aws-sdk-go v1.23.19
 	github.com/btcsuite/btcd v0.0.0-20190824003749-130ea5bddde3 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible

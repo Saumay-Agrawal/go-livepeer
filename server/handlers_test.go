@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"math/big"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts"
 	ethcommon "github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/livepeer/go-livepeer/eth"
 	"github.com/livepeer/go-livepeer/pm"
 	"github.com/stretchr/testify/assert"
@@ -645,6 +647,43 @@ func TestTicketBrokerParamsHandler_Success(t *testing.T) {
 	assert := assert.New(t)
 	assert.Equal(http.StatusOK, resp.StatusCode)
 	assert.Equal(unlockPeriod, params.UnlockPeriod)
+}
+
+func TestSignMessageHandler(t *testing.T) {
+	assert := assert.New(t)
+
+	// Test missing client
+	handler := signMessageHandler(nil)
+	resp := httpGetResp(handler)
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	assert.Equal(http.StatusInternalServerError, resp.StatusCode)
+	assert.Equal("missing ETH client", strings.TrimSpace(string(body)))
+
+	// Test signing error
+	err := errors.New("signing error")
+	client := &eth.StubClient{Err: err}
+	handler = signMessageHandler(client)
+	resp = httpGetResp(handler)
+	defer resp.Body.Close()
+	body, _ = ioutil.ReadAll(resp.Body)
+
+	assert.Equal(http.StatusInternalServerError, resp.StatusCode)
+	assert.Equal(fmt.Sprintf("could not sign message - err=%v", err), strings.TrimSpace(string(body)))
+
+	// Test signing success
+	client.Err = nil
+	msg := "foo"
+	form := url.Values{
+		"message": {msg},
+	}
+	handler = signMessageHandler(client)
+	resp = httpPostFormResp(handler, strings.NewReader(form.Encode()))
+	defer resp.Body.Close()
+	body, _ = ioutil.ReadAll(resp.Body)
+	assert.Equal(http.StatusOK, resp.StatusCode)
+	assert.Equal(crypto.Keccak256([]byte(msg)), body)
 }
 
 func httpPostFormResp(handler http.Handler, body io.Reader) *http.Response {

@@ -12,6 +12,8 @@ github.com/apilayer/freegeoip v3.5.0+incompatible h1:z1u2gv0/rsSi/HqMDB436AiUROX
 github.com/apilayer/freegeoip v3.5.0+incompatible/go.mod h1:CUfFqErhFhXneJendyQ/rRcuA8kH8JxHvYnbOozmlCU=
 github.com/aristanetworks/goarista v0.0.0-20190909155222-05df9ecbb0dc h1:zCo+iwuZN0r3OOuAxqQMhAXWK31QoDuI8y3PDkRcWzE=
 github.com/aristanetworks/goarista v0.0.0-20190909155222-05df9ecbb0dc/go.mod h1:D/tb0zPVXnP7fmsLZjtdUhSsumbK/ij54UXjjVgMGxQ=
+github.com/atotto/clipboard v0.1.2 h1:YZCtFu5Ie8qX2VmVTBnrqLSiU9XOWwqNRmdT3gIQzbY=
+github.com/atotto/clipboard v0.1.2/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
 github.com/aws/aws-sdk-go v1.23.19 h1:QiEkjRHkDXAThgnHKSEC63JwsSjL/jfYUOA2QYFmbSw=
 github.com/aws/aws-sdk-go v1.23.19/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN924inxo=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
