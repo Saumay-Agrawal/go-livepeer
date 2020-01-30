@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"math/big"
 	"net/http"
@@ -38,6 +39,28 @@ func (w *wizard) readString() string {
 		if text = strings.TrimSpace(text); text != "" {
 			return text
 		}
+	}
+}
+
+func (w *wizard) readMultilineString() string {
+	ss := make([]string, 1)
+	for {
+		fmt.Printf("(press ctrl+d when done) > ")
+		var (
+			text string
+			err  error
+		)
+		for {
+			text, err = w.in.ReadString('\n')
+			if err != nil {
+				if err != io.EOF {
+					log.Crit("Failed to read user input", "err", err)
+				}
+				break
+			}
+			ss = append(ss, text)
+		}
+		return strings.TrimSpace(strings.Join(ss, ""))
 	}
 }
 
