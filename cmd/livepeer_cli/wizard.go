@@ -44,20 +44,18 @@ func (w *wizard) readString() string {
 
 func (w *wizard) readMultilineString() string {
 	ss := make([]string, 1)
+	fmt.Printf("(press enter, then ctrl+d when done) > ")
 	for {
-		fmt.Printf("(press ctrl+d when done) > ")
-		for {
-			text, err := w.in.ReadString('\n')
-			if err != nil {
-				if err != io.EOF {
-					log.Crit("Failed to read user input", "err", err)
-				}
-				break
+		text, err := w.in.ReadString('\n')
+		if err != nil {
+			if err != io.EOF {
+				log.Crit("Failed to read user input", "err", err)
 			}
-			ss = append(ss, text)
+			break
 		}
-		return strings.TrimSpace(strings.Join(ss, ""))
+		ss = append(ss, text)
 	}
+	return strings.TrimSpace(strings.Join(ss, ""))
 }
 
 // readStringAndValidate reads a single line from stdin, trims spaces and
