@@ -50,6 +50,7 @@ func (w *wizard) readMultilineString() string {
 		if err != nil {
 			if err != io.EOF {
 				log.Crit("Failed to read user input", "err", err)
+				continue
 			}
 			break
 		}
