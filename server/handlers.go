@@ -301,12 +301,11 @@ func signMessageHandler(client eth.LivepeerEthClient) http.Handler {
 		message := r.FormValue("message")
 		signed, err := client.Sign([]byte(message))
 		if err != nil {
-			glog.Errorf("error: %v", err)
 			respondWith500(w, fmt.Sprintf("could not sign message - err=%v", err))
 			return
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(signed))
+		w.Write(signed)
 	})
 }

@@ -111,7 +111,7 @@ func TestTranscodeSeg(t *testing.T) {
 		resHashes[i] = ethCrypto.Keccak256(v.Data)
 	}
 	resHash := ethCrypto.Keccak256(resHashes...)
-	assert.Equal(ethCrypto.Keccak256(resHash), res.Sig)
+	assert.Equal(resHash, res.Sig)
 }
 
 func TestTranscodeLoop_GivenNoSegmentsPastTimeout_CleansSegmentChan(t *testing.T) {

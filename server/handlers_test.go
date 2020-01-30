@@ -15,7 +15,6 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts"
 	ethcommon "github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/livepeer/go-livepeer/eth"
 	"github.com/livepeer/go-livepeer/pm"
 	"github.com/stretchr/testify/assert"
@@ -654,7 +653,7 @@ func TestSignMessageHandler(t *testing.T) {
 
 	// Test missing client
 	handler := signMessageHandler(nil)
-	resp := httpGetResp(handler)
+	resp := httpPostFormResp(handler, nil)
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 
@@ -665,7 +664,7 @@ func TestSignMessageHandler(t *testing.T) {
 	err := errors.New("signing error")
 	client := &eth.StubClient{Err: err}
 	handler = signMessageHandler(client)
-	resp = httpGetResp(handler)
+	resp = httpPostFormResp(handler, nil)
 	defer resp.Body.Close()
 	body, _ = ioutil.ReadAll(resp.Body)
 
@@ -683,7 +682,7 @@ func TestSignMessageHandler(t *testing.T) {
 	defer resp.Body.Close()
 	body, _ = ioutil.ReadAll(resp.Body)
 	assert.Equal(http.StatusOK, resp.StatusCode)
-	assert.Equal(crypto.Keccak256([]byte(msg)), body)
+	assert.Equal([]byte(msg), body)
 }
 
 func httpPostFormResp(handler http.Handler, body io.Reader) *http.Response {

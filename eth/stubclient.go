@@ -7,7 +7,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethcommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
 	lpTypes "github.com/livepeer/go-livepeer/eth/types"
 	"github.com/livepeer/go-livepeer/pm"
 	"github.com/stretchr/testify/mock"
@@ -327,7 +326,7 @@ func (c *StubClient) CheckTx(tx *types.Transaction) error {
 func (c *StubClient) ReplaceTransaction(tx *types.Transaction, method string, gasPrice *big.Int) (*types.Transaction, error) {
 	return nil, nil
 }
-func (c *StubClient) Sign(msg []byte) ([]byte, error)   { return crypto.Keccak256(msg), c.Err }
+func (c *StubClient) Sign(msg []byte) ([]byte, error)   { return msg, c.Err }
 func (c *StubClient) GetGasInfo() (uint64, *big.Int)    { return 0, nil }
 func (c *StubClient) SetGasInfo(uint64, *big.Int) error { return nil }
 
