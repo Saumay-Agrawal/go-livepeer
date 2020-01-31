@@ -381,7 +381,7 @@ func SubmitSegment(sess *BroadcastSession, seg *stream.HLSSegment, nonce uint64)
 		}
 		return nil, fmt.Errorf(errorString)
 	}
-	glog.Infof("Uploaded segment nonce=%d seqNo=%d orch=%s", nonce, seg.SeqNo, ti.Transcoder)
+	glog.Infof("Uploaded segment nonce=%d seqNo=%d orch=%s updur=%s", nonce, seg.SeqNo, ti.Transcoder, uploadDur)
 	if monitor.Enabled {
 		monitor.SegmentUploaded(nonce, seg.SeqNo, uploadDur)
 	}
@@ -458,7 +458,8 @@ func SubmitSegment(sess *BroadcastSession, seg *stream.HLSSegment, nonce uint64)
 		monitor.SegmentTranscoded(nonce, seg.SeqNo, transcodeDur, common.ProfilesNames(sess.Profiles))
 	}
 
-	glog.Infof("Successfully transcoded segment nonce=%d manifestID=%s segName=%s seqNo=%d orch=%s", nonce, string(sess.ManifestID), seg.Name, seg.SeqNo, ti.Transcoder)
+	glog.Infof("Successfully transcoded segment nonce=%d manifestID=%s segName=%s seqNo=%d orch=%s transdur=%s", nonce,
+		string(sess.ManifestID), seg.Name, seg.SeqNo, ti.Transcoder, transcodeDur)
 
 	return &ReceivedTranscodeResult{
 		TranscodeData: tdata,
